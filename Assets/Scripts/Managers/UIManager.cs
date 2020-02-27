@@ -4,7 +4,7 @@ using UnityEngine.EventSystems;
 
 namespace Assets.Scripts.Managers
 {
-    class UIManager: MonoBehaviour
+    public class UIManager: MonoBehaviour
     {
         private Text timerComponent;
         private Text scoreComponent;
@@ -17,11 +17,11 @@ namespace Assets.Scripts.Managers
         private Button right;
         private Button down;
         private Button left;
-        private Player player;
+        public Player player;
 
         public bool GameEnd { get; set; }
 
-        private void Start()
+        private void OnEnable()
         {
             timerComponent = transform.Find("TimeLeft").GetComponent<Text>();
             scoreComponent = transform.Find("Score").GetComponent<Text>();
@@ -31,7 +31,12 @@ namespace Assets.Scripts.Managers
             down = controlPanel.transform.Find("Down").GetComponent<Button>();
             left = controlPanel.transform.Find("Left").GetComponent<Button>();
             endGamePanel = transform.Find("EndGamePanel").gameObject;
-            totalScoreComponent = endGamePanel.transform.Find("TotalScore").GetComponent<Text>();
+            totalScoreComponent = endGamePanel.transform.Find("TotalScore").GetComponent<Text>();            
+            timerComponent.text = Settings.LifeTime.ToString();
+        }
+
+        private void Start()
+        {
             player = GameObject.Find("Player").GetComponent<Player>();
             StartNewGame();
             up.onClick.AddListener(() =>
@@ -50,10 +55,9 @@ namespace Assets.Scripts.Managers
             {
                 player.StartCoroutine(player.Move(Vector3.forward));
             });
-            timerComponent.text = Settings.LifeTime.ToString();
         }
 
-      
+
         private void OnGUI()
         {
             timerComponent.text = "Time: " + timeLeft.ToString();

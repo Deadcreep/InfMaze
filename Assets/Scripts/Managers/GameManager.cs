@@ -8,38 +8,43 @@ namespace Assets.Scripts.Managers
 {
     public class GameManager : MonoBehaviour
     {
-        public GameObject Camera;
+        public Camera Camera;
         [SerializeField]
-        private GameObject PlayerPrefab;
-        private GameObject Player;
+        public GameObject Player;
         private Player playerScript;
-        private MazeManager mazeManager;
+        public MazeManager mazeManager;
         private UIManager UIManager;
         private Timer timer;
         private int lifeTime;
         private int passedStagesCount;
-        private int totalScore;
-                
+        private int totalScore_;
+        public int TotalScore { get => totalScore_; private set => totalScore_ = value; }
 
-        private void Start()
+
+
+        private void OnEnable()
         {
-            totalScore = 0;
+            TotalScore = 0;
             passedStagesCount = 0;
-            mazeManager = GetComponent<MazeManager>();
-            Player = Instantiate(PlayerPrefab.gameObject, position: new Vector3(0, 1, mazeManager.Maze.StartPoint), rotation: Quaternion.identity);
+            mazeManager = ScriptableObject.CreateInstance<MazeManager>();
+            Player = Instantiate(Resources.Load("Prefabs/Player") as GameObject, position: new Vector3(0, 1, mazeManager.Maze.StartPoint), rotation: Quaternion.identity);
             Player.name = "Player";
-            UIManager = GameObject.Find("Canvas").GetComponent<UIManager>();
+            this.Camera = Camera.main;
             playerScript = Player.GetComponent<Player>();
             playerScript.OnCreateTriggerActivated += OnCreateTriggerActivated;
             playerScript.OnStartPointReached += OnStartPointReached;
-            playerScript.OnEndPointReached += OnEndPointReached;
-
+            playerScript.OnEndPointReached += UpdateGameStatus;
+            
             timer = new Timer(1000);
             timer.AutoReset = true;
             timer.Elapsed += Timer_Elapsed;
             lifeTime = Settings.LifeTime;
         }
 
+        private void Start()
+        {
+            UIManager = GameObject.Find("Canvas").GetComponent<UIManager>();
+        }
 
         private void OnApplicationQuit()
         {
@@ -60,13 +65,14 @@ namespace Assets.Scripts.Managers
             UIManager.OnTimerChanged(lifeTime);
         }
 
-        private void OnEndPointReached()
+        private void UpdateGameStatus()
         {
             lifeTime = Settings.LifeTime;
             mazeManager.UpdateStatus();
             Camera.transform.position += new Vector3(Settings.MazeSize.x, 0, 0);
             passedStagesCount++;
             CalcScore();
+            UIManager.OnScoreChanged(TotalScore);
         }
 
         private void OnStartPointReached()
@@ -89,7 +95,7 @@ namespace Assets.Scripts.Managers
 
         private void CalcScore()
         {
-            totalScore = Mathf.RoundToInt(lifeTime * Settings.TimeMultiplier + passedStagesCount * Settings.PassedStageMultiplier);
+            TotalScore = Mathf.RoundToInt(lifeTime * Settings.TimeMultiplier + passedStagesCount * Settings.PassedStageMultiplier);
         }
 
         public void StartNewGame()

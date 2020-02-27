@@ -6,13 +6,13 @@ using Assets.Scripts;
 
 namespace Assets.Scripts.Managers
 {
-    public class MazeManager : MonoBehaviour
+    public class MazeManager : ScriptableObject
     {
-        public GameObject Platform;
-        public GameObject Wall;
-        public GameObject Floor;
-        public GameObject StartTriggerPrefab;
-        public GameObject EndTriggerPrefab;
+        private GameObject Platform;
+        private GameObject Wall;
+        private GameObject Floor;
+        private GameObject StartTriggerPrefab;
+        private GameObject EndTriggerPrefab;
         [SerializeField]
         private GameObject currMazeInstance;
         [SerializeField]
@@ -27,12 +27,20 @@ namespace Assets.Scripts.Managers
         private Vector3 nextMazeCoords;
         private int instancesCount;
 
-        void Start()
+
+        private void OnEnable()
         {
             instancesCount = 0;
             mazeSize = Settings.MazeSize;
+            Platform = Resources.Load("Prefabs/Maze structures/Platform") as GameObject;
+            Wall = Resources.Load("Prefabs/Maze structures/Wall") as GameObject;
+            Floor = Resources.Load("Prefabs/Maze structures/Floor") as GameObject;
+            StartTriggerPrefab = Resources.Load("Prefabs/Maze structures/Start trigger") as GameObject;
+            EndTriggerPrefab = Resources.Load("Prefabs/Maze structures/End trigger") as GameObject;
             StartNewSequence();
         }
+
+
 
         private void DestroyInstance()
         {

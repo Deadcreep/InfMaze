@@ -22,14 +22,13 @@ namespace Assets.Scripts
         bool isMoving;
 
 
-        void Start()
+        void OnEnable()
         {
-            isMoving = false;
-            mazeManager = GameObject.Find("GameManager").GetComponent<MazeManager>();
-            coordInMaze = new Vector2Int(0, mazeManager.Maze.StartPoint);
+            isMoving = false;            
             speed = Settings.Speed;
+            mazeManager = GameObject.Find("GameManager(Clone)").GetComponent<GameManager>().mazeManager;
+            coordInMaze = new Vector2Int(0, mazeManager.Maze.StartPoint);
         }
-
 
         void FixedUpdate()
         {
@@ -86,6 +85,7 @@ namespace Assets.Scripts
             }
             if (Regex.IsMatch(go.name, "End trigger"))
             {
+                Debug.Log("End trigger");
                 StartCoroutine(Move(Vector3Int.right));
                 go.SetActive(false);
                 OnEndPointReached();

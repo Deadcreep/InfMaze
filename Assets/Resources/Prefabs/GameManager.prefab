@@ -9,7 +9,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 9098748588995268479}
-  - component: {fileID: 9098748588995268478}
   - component: {fileID: 9098748588995268465}
   m_Layer: 0
   m_Name: GameManager
@@ -32,30 +31,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &9098748588995268478
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 9098748588995268477}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 10b248a3983b33345aa71c8556f62e75, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  Platform: {fileID: 2778009450317761182, guid: 2331d19369554ec4781a9b6587e2ed2d,
-    type: 3}
-  Wall: {fileID: 3225730994930830672, guid: ade1565fccb7f4541b3c727d6ddf2910, type: 3}
-  Floor: {fileID: 4724975885936441958, guid: 3966dfd84fec3174782bd7e61f50c6ea, type: 3}
-  StartTriggerPrefab: {fileID: 5334731525221311438, guid: 89a1fd2c38f768840aa3c73af025a3ba,
-    type: 3}
-  EndTriggerPrefab: {fileID: 793445981153301847, guid: b0418e015522fb64d87788cad6ce1f4e,
-    type: 3}
-  currMazeInstance: {fileID: 0}
-  nextMazeInstance: {fileID: 0}
-  MustDestroy: 0
-  mustDestroyNextInstance: 0
 --- !u!114 &9098748588995268465
 MonoBehaviour:
   m_ObjectHideFlags: 0

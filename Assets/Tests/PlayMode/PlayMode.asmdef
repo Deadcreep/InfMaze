@@ -2,16 +2,15 @@
     "name": "PlayMode",
     "references": [
         "UnityEngine.TestRunner",
-        "UnityEditor.TestRunner"
+        "UnityEditor.TestRunner",
+        "GameAssembly"
     ],
     "includePlatforms": [],
     "excludePlatforms": [],
     "allowUnsafeCode": false,
     "overrideReferences": true,
     "precompiledReferences": [
-        "nunit.framework.dll",
-        "Moq.dll",
-        "Castle.Core.dll"
+        "nunit.framework.dll"
     ],
     "autoReferenced": false,
     "defineConstraints": [
