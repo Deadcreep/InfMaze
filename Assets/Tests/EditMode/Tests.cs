@@ -6,60 +6,63 @@ using UnityEngine.TestTools;
 using Moq;
 using Assets.Scripts;
 using Assets.Scripts.Managers;
-using UnityEngine.UI;
 
-namespace Assets.Tests.EditMode
+namespace Tests
 {
     public class Tests
     {
         Player player;
         GameManager gameManager;
         MazeManager mazeManager;
-        UIManager uIManager;
 
 
         [SetUp]
         public void SetUp()
         {
+            GameObject managerGO = GameObject.Instantiate(Resources.Load("Prefabs/GameManager")) as GameObject;
+            mazeManager = managerGO.GetComponent<MazeManager>();
             GameObject playerGO = GameObject.Instantiate(Resources.Load("Prefabs/Player")) as GameObject;
             player = playerGO.GetComponent<Player>();
-            uIManager = (GameObject.Instantiate(Resources.Load("Prefabs/Canvas")) as GameObject).GetComponent<UIManager>();
-            gameManager = GameObject.Instantiate(Resources.Load("Prefabs/GameManager") as GameObject).GetComponent<GameManager>();
-            mazeManager = gameManager.mazeManager;            
+            player.mazeManager = Mock.Of<MazeManager>(
+                mm => mm.GetPassableDirections(It.IsAny<Vector2Int>()) == new List<Vector3>()
+                {
+                    new Vector3(1,0,0),
+                    new Vector3(-1,0,0)
+                });
+
+            gameManager = managerGO.GetComponent<GameManager>();
+            
+
         }
 
         [Test]
-        [MaxTime(1000)]
         public void TestMoveOnWrongSide()
         {
-            player.mazeManager = MockCreator.ReturnMazeManagerMock();
-            var pos = player.transform.position;            
-            player.StartCoroutine(player.Move(new Vector3(0, 0, 1)));            
+            var pos = player.transform.position;
+            player.StartCoroutine(player.Move(new Vector3(0, 0, -1)));
+            
             var posAfterMove = player.transform.position;
             Assert.AreEqual(pos, posAfterMove);
         }
 
+
+
+        // A Test behaves as an ordinary method
         [Test]
-        [MaxTime(1000)]
-        public void TestMoveOnRightSide()
+        public void TestsSimplePasses()
         {
-            player.mazeManager = MockCreator.ReturnMazeManagerMock();
-            var pos = player.transform.position;
-            player.StartCoroutine(player.Move(new Vector3(1, 0, 0)));
-            var posAfterMove = player.transform.position;
-            Assert.AreEqual(posAfterMove, pos + new Vector3(1, 0, 0));
+            // Use the Assert class to test conditions
         }
 
-
-        [Test]
-       public void TestGameEnd()
+        // A UnityTest behaves like a coroutine in Play Mode. In Edit Mode you can use
+        // `yield return null;` to skip a frame.
+        [UnityTest]
+        public IEnumerator TestsWithEnumeratorPasses()
         {
-            //gameManager.player
-            
+            // Use the Assert class to test conditions.
+            // Use yield to skip a frame.
+            yield return null;
         }
-
-        
-
 
         [TearDown]
         public void TearDown()
@@ -67,8 +70,6 @@ namespace Assets.Tests.EditMode
             GameObject.DestroyImmediate(player);
             GameObject.DestroyImmediate(mazeManager);
             GameObject.DestroyImmediate(gameManager);
-            GameObject.DestroyImmediate(uIManager);
         }
-
     }
 }
