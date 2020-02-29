@@ -26,14 +26,12 @@ namespace Assets.Scripts
         {
             isMoving = false;            
             speed = Settings.Speed;
-            mazeManager = GameObject.Find("GameManager(Clone)").GetComponent<GameManager>().mazeManager;
+            mazeManager = GameObject.Find("GameManager").GetComponent<GameManager>().mazeManager;
             coordInMaze = new Vector2Int(0, mazeManager.Maze.StartPoint);
         }
 
         void FixedUpdate()
         {
-            
-
             if (Input.GetKey(KeyCode.UpArrow) || Input.GetKey(KeyCode.RightArrow) || Input.GetKey(KeyCode.DownArrow) || Input.GetKey(KeyCode.LeftArrow))
             {
                 var moveDirection = new Vector3(Input.GetAxis("Horizontal"), 0.0f, Input.GetAxis("Vertical"));
