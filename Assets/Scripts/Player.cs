@@ -22,12 +22,17 @@ namespace Assets.Scripts
         bool isMoving;
 
 
+<<<<<<< HEAD
+=======
+        void Start()
+>>>>>>> parent of 426dd1e... tests updates
         {
-            isMoving = false;            
-            speed = Settings.Speed;
-            mazeManager = GameObject.Find("GameManager(Clone)").GetComponent<GameManager>().mazeManager;
+            isMoving = false;
+            mazeManager = GameObject.Find("GameManager").GetComponent<MazeManager>();
             coordInMaze = new Vector2Int(0, mazeManager.Maze.StartPoint);
+            speed = Settings.Speed;
         }
+
 
         void FixedUpdate()
         {
