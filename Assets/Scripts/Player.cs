@@ -22,7 +22,6 @@ namespace Assets.Scripts
         bool isMoving;
 
 
-        void OnEnable()
         {
             isMoving = false;            
             speed = Settings.Speed;
@@ -83,7 +82,6 @@ namespace Assets.Scripts
             }
             if (Regex.IsMatch(go.name, "End trigger"))
             {
-                Debug.Log("End trigger");
                 StartCoroutine(Move(Vector3Int.right));
                 go.SetActive(false);
                 OnEndPointReached();
